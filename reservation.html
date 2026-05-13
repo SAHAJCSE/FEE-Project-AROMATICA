@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Table | Aromatica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden { display: none !important; }
+        .reservation-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 50px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-light);
+            outline: none;
+            transition: var(--transition);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--primary-color);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Table Layout Visual */
+        .floor-plan {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+        .table-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .table-item {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .table-item.available {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+        }
+        .table-item.reserved {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            cursor: not-allowed;
+        }
+        .table-item.selected {
+            background: var(--primary-color);
+            border-color: var(--text-light);
+            color: var(--bg-dark);
+            transform: scale(1.05);
+        }
+        .table-item.disabled-capacity {
+            opacity: 0.25 !important;
+            cursor: not-allowed !important;
+            border-color: transparent !important;
+            background: rgba(255,255,255,0.05) !important;
+        }
+        .table-item span {
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .status-legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 992px) {
+            .reservation-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body onload="initTableBooking()">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">AROMATICA</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="restaurant.html">Restaurant</a></li>
+                <li><a href="reservation.html" class="active">Reservation</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-btns">
+                <a href="login.html" class="btn btn-outline">Login / Signup</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cinematic Reservation Hero -->
+    <section class="hero reservation-hero" style="min-height: 80vh; overflow: hidden; position: relative;">
+        <!-- Floating ecosystem -->
+        <div class="floating-blur-circle gold" style="width: 500px; height: 500px; top: 10%; left: -5%;"></div>
+        <div class="floating-blur-circle accent" style="width: 600px; height: 600px; bottom: -10%; right: -5%;"></div>
+        
+        <div class="floating-coffee-particle" style="top: 20%; left: 30%; animation-delay: 0.5s;"></div>
+        <div class="floating-coffee-particle" style="top: 60%; left: 10%; animation-delay: 2s;"></div>
+        <div class="floating-coffee-particle" style="top: 80%; left: 70%; animation-delay: 1.5s;"></div>
+        <div class="floating-coffee-particle" style="top: 30%; right: 20%; animation-delay: 3s;"></div>
+
+        <div class="container hero-container" style="align-items: center; padding-top: 50px;">
+            <!-- Left Side -->
+            <div class="hero-content reveal" style="flex: 1;">
+                <span class="hero-subtitle"><i class="fas fa-gem" style="margin-right: 8px;"></i> Ultra-Premium Dining</span>
+                <h1 style="font-size: clamp(3rem, 6vw, 4.5rem); margin-bottom: 1.2rem; line-height: 1.1;">Book Your <br><span class="accent-text">Table</span></h1>
+                <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 500px; line-height: 1.6;">Secure your spot at Aromatica for an unparalleled luxury dining experience. From candle-lit intimate dinners to exclusive Chef's Table masterclasses.</p>
+                <div class="hero-btns">
+                    <a href="#reservation-form-section" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;"><i class="fas fa-calendar-check" style="margin-right: 8px;"></i> Reserve Now</a>
+                    <a href="#experiences-section" class="btn btn-outline" style="padding: 1rem 2.5rem; font-size: 1.1rem;"><i class="fas fa-compass" style="margin-right: 8px;"></i> Explore Dining</a>
+                </div>
+            </div>
+
+            <!-- Right Side Visual Container -->
+            <div class="hero-visual reveal" style="flex: 1.2; position: relative; display: flex; align-items: center; justify-content: center; min-height: 550px;">
+                <div class="image-wrapper" style="position: relative; z-index: 5; width: 100%; max-width: 500px;">
+                    <div class="glow-effect" style="background: radial-gradient(circle, rgba(212, 163, 115, 0.5) 0%, transparent 65%);"></div>
+                    
+                    <img src="./images/reservation/candle-light-dinner.jpg" alt="Premium Candle Light Dinner" style="width: 100%; height: auto; border-radius: 30px; box-shadow: 0 30px 80px rgba(0,0,0,0.95); border: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 5; animation: float3D 12s ease-in-out infinite;">
+                    
+                    <!-- Floating Feature Cards -->
+                    <div class="floating-element-wrapper" style="top: 5%; left: -25%; animation-delay: 0s;">
+                        <div class="floating-glass-card gold-glow"><i class="fas fa-star"></i> VIP Dining Experience</div>
+                    </div>
+                    <div class="floating-element-wrapper" style="top: 80%; left: -15%; animation-delay: -3.5s;">
+                        <div class="floating-glass-card"><i class="fas fa-wine-glass-alt"></i> Candle Light Dinner</div>
+                    </div>
+                    <div class="floating-element-wrapper" style="top: 20%; right: -30%; animation-delay: -1.8s;">
+                        <div class="floating-glass-card gold-glow"><i class="fas fa-music"></i> Live Music Every Weekend</div>
+                    </div>
+                    <div class="floating-element-wrapper" style="top: 75%; right: -20%; animation-delay: -4.2s;">
+                        <div class="floating-glass-card"><i class="fas fa-clock"></i> Open Till 1:00 AM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dining Experiences Grid -->
+    <section id="experiences-section" class="container" style="padding: 100px 0;">
+        <div class="section-title-wrapper reveal" style="text-align: center; margin-bottom: 4rem;">
+            <span class="hero-subtitle" style="justify-content: center; margin-bottom: 1rem;"><i class="fas fa-sparkles"></i> Curated Selections</span>
+            <h2 style="font-size: 2.8rem; color: var(--text-light);">Exclusive <span class="accent-text">Experiences</span></h2>
+        </div>
+        
+        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- Card 1 -->
+            <div class="experience-card reveal">
+                <img src="./images/reservation/candle-light-dinner.jpg" class="experience-img" alt="Candle Light Dinner">
+                <div class="experience-overlay">
+                    <h3>Candle Light Dinner</h3>
+                    <p>An intimate setup under warm amber glow, perfect for anniversaries and romantic milestones.</p>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="experience-card reveal" style="transition-delay: 0.1s;">
+                <img src="./images/reservation/chefs-table.jpg" class="experience-img" alt="Chef's Table">
+                <div class="experience-overlay">
+                    <h3>Chef's Table</h3>
+                    <p>A front-row seat to culinary mastery. Interact directly with our Executive Chef during service.</p>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="experience-card reveal" style="transition-delay: 0.2s;">
+                <img src="./images/reservation/private-dining.jpg" class="experience-img" alt="Private Dining">
+                <div class="experience-overlay">
+                    <h3>Private Dining Room</h3>
+                    <p>Exclusive secluded luxury rooms for confidential meetings or private family gatherings.</p>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="experience-card reveal" style="transition-delay: 0.3s;">
+                <img src="./images/reservation/rooftop-dining.jpg" class="experience-img" alt="Rooftop Dining">
+                <div class="experience-overlay">
+                    <h3>Rooftop Twilight</h3>
+                    <p>Dine under the stars with breathtaking panoramic views of the city skyline.</p>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="experience-card reveal" style="transition-delay: 0.4s;">
+                <img src="./images/reservation/luxury-coffee.jpg" class="experience-img" alt="Luxury Coffee Tasting">
+                <div class="experience-overlay">
+                    <h3>Masterclass Tasting</h3>
+                    <p>A guided journey through rare single-origin roasts with our Head Barista.</p>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="experience-card reveal" style="transition-delay: 0.5s;">
+                <img src="./images/orders/order1.jpg" class="experience-img" alt="Live Music Nights">
+                <div class="experience-overlay">
+                    <h3>Live Symphony Nights</h3>
+                    <p>Immersive weekend dining accompanied by live classical and jazz performances.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Reservation Section -->
+    <section id="reservation-form-section" class="container" style="padding-bottom: 100px; position: relative;">
+        <!-- Background accents -->
+        <div class="floating-blur-circle accent" style="width: 400px; height: 400px; top: 20%; left: -20%;"></div>
+        
+        <div class="reservation-container reveal">
+            <!-- Left Side: Premium Form -->
+            <div class="glass" style="padding: 3.5rem; border-radius: 25px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative; z-index: 10;">
+                <div style="text-align: center; margin-bottom: 2.5rem;">
+                    <i class="fas fa-concierge-bell" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h2 style="color: var(--text-light); font-size: 2rem;">Secure Your Table</h2>
+                </div>
+                
+                <form id="reservation-form">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;"><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> Select Outlet</label>
+                        <select id="reservation-restaurant-select" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                            <option value="" style="color: #000;">Choose Outlet</option>
+                            <option value="Dum Noorani" style="color: #000;">Aromatica Sector 7-C (Flagship)</option>
+                            <option value="The Great Bear" style="color: #000;">Aromatica Sector 26 (Lounge)</option>
+                            <option value="Virgin Courtyard" style="color: #000;">Aromatica Panchkula (Rooftop)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="form-group">
+                            <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Full Name</label>
+                            <input type="text" placeholder="John Doe" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Phone Number</label>
+                            <input type="tel" placeholder="+91 98765 43210" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Email Address</label>
+                        <input type="email" placeholder="john@example.com" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                    </div>
+                    
+                    <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Date</label>
+                            <input type="date" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Time</label>
+                            <select required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                                <option value="" style="color: #000;">Time</option>
+                                <option style="color: #000;">19:00</option>
+                                <option style="color: #000;">20:00</option>
+                                <option style="color: #000;">21:00</option>
+                                <option style="color: #000;">22:00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Guests</label>
+                            <select id="reservation-guests-select" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                                <option value="" style="color: #000;">Count</option>
+                                <option value="2" style="color: #000;">2 Guests</option>
+                                <option value="4" style="color: #000;">3-4 Guests</option>
+                                <option value="6" style="color: #000;">5-6 Guests</option>
+                                <option value="8" style="color: #000;">7-8 Guests</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Occasion / Special Requests</label>
+                        <textarea rows="3" placeholder="Anniversary, Birthday, Dietary restrictions..." style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem; resize: none;"></textarea>
+                    </div>
+                    
+                    <div style="background: rgba(212, 163, 115, 0.1); border: 1px solid rgba(212, 163, 115, 0.3); border-radius: 12px; padding: 1rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">Map Allocation:</span>
+                        <span id="selected-table-info" style="font-weight: 700; color: var(--primary-color); font-size: 1.1rem;">Pending Selection</span>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem; letter-spacing: 1px; border-radius: 12px; box-shadow: 0 10px 20px rgba(212, 163, 115, 0.2);">Confirm Reservation <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></button>
+                </form>
+            </div>
+
+            <!-- Right Side: Interactive Floor Plan -->
+            <div class="reveal" style="position: relative; z-index: 10;">
+                <h2 style="margin-bottom: 2rem; text-align: center; color: var(--text-light);">Interactive <span class="accent-text">Floor Plan</span></h2>
+                
+                <div class="floor-plan" style="background: rgba(10,10,10,0.8); backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+                    <div style="background: rgba(212, 163, 115, 0.1); padding: 1rem; border-radius: 10px; text-align: center; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-light); border: 1px solid rgba(212, 163, 115, 0.2);">
+                        <i class="fas fa-hand-pointer" style="color: var(--primary-color);"></i> Select your preferred available table below based on guest capacity.
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary-color); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">Window Side <span style="text-transform:none; font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Couples)</span></div>
+                    <div class="table-grid">
+                        <div class="table-item available" data-table="W-01" data-capacity="2"><span>W-01</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">2 Guests</span></div>
+                        <div class="table-item available" data-table="W-02" data-capacity="2"><span>W-02</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">2 Guests</span></div>
+                        <div class="table-item reserved" data-table="W-03" data-capacity="2"><span>W-03</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">2 Guests</span></div>
+                        <div class="table-item available" data-table="W-04" data-capacity="2"><span>W-04</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">2 Guests</span></div>
+                    </div>
+
+                    <div style="margin: 2rem 0 1rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary-color); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">Main Dining <span style="text-transform:none; font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Groups)</span></div>
+                    <div class="table-grid">
+                        <div class="table-item available" data-table="M-01" data-capacity="4"><span>M-01</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">4 Guests</span></div>
+                        <div class="table-item available" data-table="M-02" data-capacity="6"><span>M-02</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">6 Guests</span></div>
+                        <div class="table-item reserved" data-table="M-03" data-capacity="4"><span>M-03</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">4 Guests</span></div>
+                        <div class="table-item available" data-table="M-04" data-capacity="8"><span>M-04</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">8 Guests</span></div>
+                    </div>
+
+                    <div style="margin: 2rem 0 1rem; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary-color); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;">VIP Lounge <span style="text-transform:none; font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(Premium)</span></div>
+                    <div class="table-grid">
+                        <div class="table-item available" data-table="V-01" data-capacity="2"><span>V-01</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">2 Guests</span></div>
+                        <div class="table-item reserved" data-table="V-02" data-capacity="4"><span>V-02</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">4 Guests</span></div>
+                        <div class="table-item available" data-table="V-03" data-capacity="6"><span>V-03</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">6 Guests</span></div>
+                        <div class="table-item available" data-table="V-04" data-capacity="8"><span>V-04</span><span style="font-size:0.65rem; color:var(--text-muted); font-weight:normal;">8 Guests</span></div>
+                    </div>
+
+                    <div class="status-legend" style="background: rgba(0,0,0,0.4); padding: 1rem; border-radius: 50px; margin-top: 2.5rem; display: flex; justify-content: space-around;">
+                        <div class="legend-item"><div class="dot" style="background: #2ecc71; box-shadow: 0 0 10px #2ecc71;"></div> Available</div>
+                        <div class="legend-item"><div class="dot" style="background: #e74c3c;"></div> Reserved</div>
+                        <div class="legend-item"><div class="dot" style="background: var(--primary-color); box-shadow: 0 0 10px var(--primary-color);"></div> Selected</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Benefits -->
+    <section class="container" style="padding: 50px 0 100px;">
+        <div class="section-title-wrapper reveal" style="text-align: center; margin-bottom: 3rem;">
+            <h2 style="font-size: 2.5rem;">The <span class="accent-text">Aromatica</span> Guarantee</h2>
+        </div>
+        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem;">
+            <div class="benefit-icon-badge reveal">
+                <i class="fas fa-crown"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">VIP Treatment</h4>
+            </div>
+            <div class="benefit-icon-badge reveal" style="transition-delay: 0.1s;">
+                <i class="fas fa-glass-cheers"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">Welcome Drink</h4>
+            </div>
+            <div class="benefit-icon-badge reveal" style="transition-delay: 0.2s;">
+                <i class="fas fa-chair"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">Priority Seating</h4>
+            </div>
+            <div class="benefit-icon-badge reveal" style="transition-delay: 0.3s;">
+                <i class="fas fa-birthday-cake"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">Free Dessert</h4>
+            </div>
+            <div class="benefit-icon-badge reveal" style="transition-delay: 0.4s;">
+                <i class="fas fa-concierge-bell"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">Premium Service</h4>
+            </div>
+            <div class="benefit-icon-badge reveal" style="transition-delay: 0.5s;">
+                <i class="fas fa-parking"></i>
+                <h4 style="font-size: 1.1rem; margin: 0;">Valet Parking</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Slider -->
+    <section class="container" style="padding-bottom: 100px;">
+        <div class="section-title-wrapper reveal" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+            <div>
+                <span class="hero-subtitle"><i class="fas fa-heart"></i> Guest Stories</span>
+                <h2 style="font-size: 2.5rem; margin-top: 0.5rem;">Dining <span class="accent-text">Memories</span></h2>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-outline" style="padding: 0.5rem 1rem; border-radius: 50%;" onclick="document.querySelector('.testimonial-track').scrollBy({left: -370, behavior: 'smooth'})"><i class="fas fa-chevron-left"></i></button>
+                <button class="btn btn-outline" style="padding: 0.5rem 1rem; border-radius: 50%;" onclick="document.querySelector('.testimonial-track').scrollBy({left: 370, behavior: 'smooth'})"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        
+        <div class="testimonial-track reveal">
+            <div class="testimonial-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h4 style="margin: 0;">Sarah Jenkins</h4>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Local Guide</span>
+                        </div>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 0.9rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p style="color: var(--text-light); line-height: 1.6; font-style: italic;">"The Candle Light dinner experience was beyond magical. The staff was incredibly attentive, and the truffle pasta was the best I've ever had. Highly recommend booking the Window Side tables!"</p>
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                    <span style="font-size: 0.8rem; background: rgba(212, 163, 115, 0.1); color: var(--primary-color); padding: 0.3rem 0.8rem; border-radius: 50px;"><i class="fas fa-wine-glass-alt"></i> Candle Light Dinner</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h4 style="margin: 0;">Michael Chen</h4>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Food Critic</span>
+                        </div>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 0.9rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p style="color: var(--text-light); line-height: 1.6; font-style: italic;">"Booked the Chef's Table for my birthday. Truly an immersive masterclass in fine dining. Every detail from the ambient lighting to the wine pairing was orchestrated to perfection."</p>
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                    <span style="font-size: 0.8rem; background: rgba(212, 163, 115, 0.1); color: var(--primary-color); padding: 0.3rem 0.8rem; border-radius: 50px;"><i class="fas fa-utensils"></i> Chef's Table</span>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h4 style="margin: 0;">Priya Sharma</h4>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">VIP Member</span>
+                        </div>
+                    </div>
+                    <div style="color: var(--primary-color); font-size: 0.9rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <p style="color: var(--text-light); line-height: 1.6; font-style: italic;">"The VIP Lounge reservation process was flawless. The interactive map made it so easy to pick our exact spot. The luxury coffee tasting afterwards was the perfect closing note."</p>
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                    <span style="font-size: 0.8rem; background: rgba(212, 163, 115, 0.1); color: var(--primary-color); padding: 0.3rem 0.8rem; border-radius: 50px;"><i class="fas fa-crown"></i> VIP Lounge</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms and Extra Curations -->
+    <section class="container" style="padding-bottom: 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+        <!-- Terms Accordion -->
+        <div class="reveal">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem;"><i class="fas fa-file-signature" style="color: var(--primary-color);"></i> Booking Policies</h2>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Cancellation Policy
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        We request that any cancellations or modifications to your reservation be made no less than 24 hours prior to your scheduled booking time. Late cancellations may be subject to a nominal fee to account for reserved premium arrangements.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Arrival Timings
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        To ensure the highest quality of service, we hold tables for a maximum of 15 minutes past the reservation time. If you anticipate arriving late, please notify our concierge team immediately.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Dining Duration
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        During peak dining hours, table allocations are scheduled for a duration of 2 hours for groups up to 4 guests, and 2.5 hours for larger groups. This allows us to accommodate all our esteemed guests effectively.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    Dress Code & Etiquette
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        Aromatica enforces a smart casual dress code. Gentlemen are requested to avoid sleeveless shirts. We kindly ask all guests to refrain from flash photography in the main dining areas to maintain an intimate atmosphere.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Extra Curations -->
+        <div class="reveal">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem;"><i class="fas fa-compass" style="color: var(--primary-color);"></i> Discover More</h2>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="glass" style="padding: 1.5rem; border-radius: 15px; display: flex; align-items: center; gap: 1.5rem; transition: var(--transition); cursor: pointer;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--glass-border)'">
+                    <div style="width: 80px; height: 80px; border-radius: 10px; background: url('./images/orders/order1.jpg') center/cover;"></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Today's Special Dining</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Exclusive limited availability tasting menu crafted fresh today.</p>
+                    </div>
+                </div>
+                
+                <div class="glass" style="padding: 1.5rem; border-radius: 15px; display: flex; align-items: center; gap: 1.5rem; transition: var(--transition); cursor: pointer;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--glass-border)'">
+                    <div style="width: 80px; height: 80px; border-radius: 10px; background: url('./images/reservation/chefs-table.jpg') center/cover;"></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Chef Recommendations</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Seasonal pairings handpicked by our Master Chef.</p>
+                    </div>
+                </div>
+                
+                <div class="glass" style="padding: 1.5rem; border-radius: 15px; display: flex; align-items: center; gap: 1.5rem; transition: var(--transition); cursor: pointer;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='var(--glass-border)'">
+                    <div style="width: 80px; height: 80px; border-radius: 10px; background: url('./images/reservation/private-dining.jpg') center/cover;"></div>
+                    <div>
+                        <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Luxury Dining Gallery</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Explore our award-winning architectural and culinary designs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="logo">AROMATICA</h3>
+                    <p>Redefining the luxury dining and coffee experience with passion and precision.</p>
+                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-envelope"></i> contact@aromatica.com</p>
+                    <p style="font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-phone"></i> +91 172 480 2008</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Our Restaurants</h3>
+                    <ul>
+                        <li><a href="restaurant.html">Downtown Lounge</a></li>
+                        <li><a href="restaurant.html">Skyline Terrace</a></li>
+                        <li><a href="restaurant.html">Ocean Breeze</a></li>
+                        <li><a href="restaurant.html">The Heritage Garden</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Connect With Us</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+                        <a href="https://instagram.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #E1306C; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-instagram"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaLuxury</span>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1877F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-facebook-f"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">/AromaticaDining</span>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1DA1F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-twitter"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaCoffee</span>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #FF0000; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-youtube"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">Aromatica Experience</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aromatica Luxury Restaurants. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Reservation Success Modal -->
+    <div id="reservation-success-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+        <div class="glass" style="max-width: 500px; width: 100%; padding: 3rem 2rem; border-radius: 25px; text-align: center; position: relative; border: 1px solid rgba(46, 204, 113, 0.3);">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(46, 204, 113, 0.2); color: #2ecc71; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem; border: 2px solid #2ecc71;">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="color: var(--text-light); font-size: 1.8rem; margin-bottom: 0.5rem;">Table Secured!</h2>
+            <p style="color: var(--primary-color); font-weight: 600; margin-bottom: 1.5rem;">Booking Reference: <span id="popup-res-id"></span></p>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 15px; text-align: left; margin-bottom: 2rem; font-size: 0.95rem; color: var(--text-muted); display: grid; gap: 0.8rem;">
+                <div><strong style="color: var(--text-light);">Outlet:</strong> <span id="popup-res-outlet"></span></div>
+                <div><strong style="color: var(--text-light);">Allocated Table:</strong> <span id="popup-res-table"></span></div>
+                <div><strong style="color: var(--text-light);">Scheduled Timing:</strong> <span id="popup-res-timing"></span></div>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Your reservation has been added directly to your orders dashboard history.</p>
+            <button class="btn btn-primary" style="width: 100%; padding: 0.8rem;" onclick="window.location.href='orders.html'">View Order History</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

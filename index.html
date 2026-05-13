@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aromatica | Luxury Dining & Coffee Culture</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">AROMATICA</a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="restaurant.html">Restaurant</a></li>
+                <li><a href="reservation.html">Reservation</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <div class="nav-btns">
+                <a href="login.html" class="btn btn-outline">Login / Signup</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content reveal">
+                <span class="hero-subtitle">Premium Coffee Experience</span>
+                <h1>Experience Luxury <br><span class="accent-text">Dining & Coffee</span> Culture</h1>
+                <p>Indulge in the finest selection of artisan coffees and gourmet dishes, crafted for the true connoisseur of life. Every sip tells a story of elegance and passion.</p>
+                <div class="hero-btns">
+                    <a href="restaurant.html" class="btn btn-primary">Explore Restaurant</a>
+                    <a href="#" class="btn btn-outline">How It Works <i class="fas fa-play-circle" style="margin-left: 8px;"></i></a>
+                </div>
+            </div>
+            <div class="hero-visual reveal">
+                <div class="image-wrapper">
+                    <div class="glow-effect" style="background: radial-gradient(circle, rgba(237, 230, 220, 0.25) 0%, transparent 70%);"></div>
+                    <img src="./images/hero/koffee-room-cups.png" alt="The Koffee Room Selection" style="width: 100%; max-width: 460px; height: auto; border-radius: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 5; animation: float 6s ease-in-out infinite;" loading="lazy">
+                </div>
+                <div class="floating-particle p1"></div>
+                <div class="floating-particle p2"></div>
+                <div class="floating-particle p3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section class="featured container" style="padding: 100px 0;">
+        <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Signature Experience</h2>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto;">From the bean to the cup, and the farm to the table, every detail at Aromatica is curated for excellence.</p>
+        </div>
+        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+                <i class="fas fa-coffee" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                <h3>Artisan Brews</h3>
+                <p style="color: var(--text-muted);">Masterfully roasted beans sourced from the world's most prestigious estates.</p>
+            </div>
+            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+                <i class="fas fa-utensils" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                <h3>Gourmet Dining</h3>
+                <p style="color: var(--text-muted);">Exquisite flavors designed by award-winning chefs to delight your palate.</p>
+            </div>
+            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+                <i class="fas fa-gem" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                <h3>Luxury Ambience</h3>
+                <p style="color: var(--text-muted);">An atmosphere of sophistication and comfort, perfect for any occasion.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Selection -->
+    <section class="signature-section">
+        <div class="container">
+            <div class="signature-card reveal">
+                <div class="signature-content">
+                    <span class="hero-subtitle">The Masterpiece</span>
+                    <h2>Signature Coffee Selection</h2>
+                    <p>Experience the symphony of flavors in our premium lattes. Each cup is a work of art, hand-poured by our master baristas using the rarest coffee beans in the world.</p>
+                    <ul class="signature-features">
+                        <li><i class="fas fa-check-circle"></i> Hand-Selected Beans</li>
+                        <li><i class="fas fa-check-circle"></i> Organic Milk Options</li>
+                        <li><i class="fas fa-check-circle"></i> Expert Latte Art</li>
+                    </ul>
+                    <a href="restaurant.html" class="btn btn-primary">View Full Menu</a>
+                </div>
+                <div class="signature-image">
+                    <img src="./images/menu/signature-coffee.png" alt="Signature Coffee Selection" class="reveal" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Preview Section -->
+    <section class="menu-preview container" style="padding: 100px 0;">
+        <div class="reveal" style="text-align: center; margin-bottom: 60px;">
+            <span class="hero-subtitle">Taste the Excellence</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Seasonal Favorites</h2>
+        </div>
+        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem;">
+            <!-- Item 1 -->
+            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+                <img src="./images/menu/gold-flake-latte.png" alt="Gold Flake Latte" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 1.2rem;">Gold Flake Latte</h3>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹12.00</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">24k edible gold flakes over premium espresso and velvet foam.</p>
+            </div>
+            <!-- Item 2 -->
+            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+                <img src="./images/menu/truffle-mocha.png" alt="Truffle Mocha" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 1.2rem;">Truffle Mocha</h3>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹15.00</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Rich dark chocolate infused with hints of black truffle oil.</p>
+            </div>
+            <!-- Item 3 -->
+            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+                <img src="./images/menu/velvet-cheesecake.png" alt="Velvet Cheesecake" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 1.2rem;">Velvet Cheesecake</h3>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹18.00</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Artisan cheesecake served with a wild berry reduction.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 4rem;">
+            <a href="restaurant.html" class="btn btn-outline">Explore Full Menu</a>
+        </div>
+    </section>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart-btn" id="open-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Selection</h3>
+            <i class="fas fa-times close-cart" id="close-cart"></i>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal">₹0.00</span>
+            </div>
+            <div class="cart-total-row">
+                <span>Tax (5%)</span>
+                <span id="cart-tax">₹0.00</span>
+            </div>
+            <div class="cart-total-row grand-total">
+                <span>Total</span>
+                <span id="cart-total">₹0.00</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" id="checkout-btn">Place Order</button>
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div class="modal-overlay" id="menu-modal">
+        <div class="modal-content">
+            <i class="fas fa-times close-modal" id="close-menu-modal"></i>
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <span class="hero-subtitle">Premium Selection</span>
+                <h2 style="font-size: 2.5rem;">Explore Full Menu</h2>
+            </div>
+            
+            <div class="menu-categories" id="menu-categories">
+                <!-- Categories injected by JS -->
+            </div>
+
+            <div class="menu-grid" id="menu-grid">
+                <!-- Menu items injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-content" style="max-width: 450px; text-align: center; padding: 4rem 2rem;">
+            <div style="width: 80px; height: 80px; background: rgba(46, 204, 113, 0.2); color: #2ecc71; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 2rem;">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="margin-bottom: 1rem;">Order Placed!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Your order #<span id="order-id"></span> has been received. We'll start preparing your luxury experience immediately.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button class="btn btn-outline" onclick="closeSuccessModal()">Close</button>
+                <a href="orders.html" class="btn btn-primary">Track Order</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="logo">AROMATICA</h3>
+                    <p>Redefining the luxury dining and coffee experience with passion and precision.</p>
+                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-envelope"></i> contact@aromatica.com</p>
+                    <p style="font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-phone"></i> +91 172 480 2008</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Our Restaurants</h3>
+                    <ul>
+                        <li><a href="restaurant.html">Downtown Lounge</a></li>
+                        <li><a href="restaurant.html">Skyline Terrace</a></li>
+                        <li><a href="restaurant.html">Ocean Breeze</a></li>
+                        <li><a href="restaurant.html">The Heritage Garden</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Connect With Us</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+                        <a href="https://instagram.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #E1306C; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-instagram"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaLuxury</span>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1877F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-facebook-f"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">/AromaticaDining</span>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1DA1F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-twitter"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaCoffee</span>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
+                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #FF0000; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-youtube"></i></span>
+                            <span style="font-size: 0.95rem; font-weight: 500;">Aromatica Experience</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Aromatica Luxury Restaurants. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
