@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your table at Aromatica. Choose from candlelight dinners, Chef's Table experiences, and rooftop dining with our interactive reservation system.">
     <title>Book Your Table | Aromatica</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -122,12 +123,12 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="restaurant.html">Restaurant</a></li>
-                <li><a href="reservation.html" class="active">Reservation</a></li>
+                <li><a href="reservation.html">Reservation</a></li>
                 <li><a href="orders.html">Orders</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
             <div class="nav-btns">
-                <a href="login.html" class="btn btn-outline">Login / Signup</a>
+                <a href="login.html" class="btn btn-outline"><i class="fas fa-user" style="margin-right:5px;"></i><span class="btn-login-text">Login</span></a>
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -268,14 +269,14 @@
                         </select>
                     </div>
                     
-                    <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="grid reservation-form-2col" style="gap: 1.5rem;">
                         <div class="form-group">
                             <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Full Name</label>
                             <input type="text" placeholder="John Doe" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
                         </div>
                         <div class="form-group">
                             <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Phone Number</label>
-                            <input type="tel" placeholder="+91 98765 43210" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                            <input type="tel" name="phone" placeholder="+91 98765 43210" autocomplete="tel" pattern="[+0-9\s\-]{7,15}" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
                         </div>
                     </div>
                     
@@ -284,10 +285,10 @@
                         <input type="email" placeholder="john@example.com" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
                     </div>
                     
-                    <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="grid reservation-form-3col" style="gap: 1rem;">
                         <div class="form-group">
                             <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Date</label>
-                            <input type="date" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
+                            <input type="date" id="reservation-date" name="date" required style="width: 100%; padding: 1.2rem; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--text-light); font-size: 1rem;">
                         </div>
                         <div class="form-group">
                             <label style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Time</label>
@@ -403,19 +404,15 @@
 
     <!-- Testimonials Slider -->
     <section class="container" style="padding-bottom: 100px;">
-        <div class="section-title-wrapper reveal" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+        <div class="section-title-wrapper reveal" style="text-align: center; margin-bottom: 3rem;">
             <div>
-                <span class="hero-subtitle"><i class="fas fa-heart"></i> Guest Stories</span>
+                <span class="hero-subtitle" style="justify-content: center;"><i class="fas fa-heart"></i> Guest Stories</span>
                 <h2 style="font-size: 2.5rem; margin-top: 0.5rem;">Dining <span class="accent-text">Memories</span></h2>
-            </div>
-            <div style="display: flex; gap: 1rem;">
-                <button class="btn btn-outline" style="padding: 0.5rem 1rem; border-radius: 50%;" onclick="document.querySelector('.testimonial-track').scrollBy({left: -370, behavior: 'smooth'})"><i class="fas fa-chevron-left"></i></button>
-                <button class="btn btn-outline" style="padding: 0.5rem 1rem; border-radius: 50%;" onclick="document.querySelector('.testimonial-track').scrollBy({left: 370, behavior: 'smooth'})"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
         
         <div class="testimonial-track reveal">
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
                     <div style="display: flex; gap: 1rem; align-items: center;">
                         <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
@@ -434,7 +431,7 @@
                 </div>
             </div>
             
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
                     <div style="display: flex; gap: 1rem; align-items: center;">
                         <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
@@ -453,7 +450,7 @@
                 </div>
             </div>
             
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
                     <div style="display: flex; gap: 1rem; align-items: center;">
                         <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary-color);"><i class="fas fa-user"></i></div>
@@ -475,7 +472,7 @@
     </section>
 
     <!-- Terms and Extra Curations -->
-    <section class="container" style="padding-bottom: 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+    <section class="container reservation-bottom-section" style="padding-bottom: 100px;">
         <!-- Terms Accordion -->
         <div class="reveal">
             <h2 style="font-size: 2rem; margin-bottom: 2rem;"><i class="fas fa-file-signature" style="color: var(--primary-color);"></i> Booking Policies</h2>
@@ -567,40 +564,40 @@
                 <div class="footer-col">
                     <h3 class="logo">AROMATICA</h3>
                     <p>Redefining the luxury dining and coffee experience with passion and precision.</p>
-                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-envelope"></i> contact@aromatica.com</p>
-                    <p style="font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-phone"></i> +91 172 480 2008</p>
+                    <p><i class="fas fa-envelope"></i> info@aromatica.com</p>
+                    <p><i class="fas fa-phone"></i> +91 172 480 2008</p>
                 </div>
                 <div class="footer-col">
                     <h3>Our Restaurants</h3>
                     <ul>
-                        <li><a href="restaurant.html">Downtown Lounge</a></li>
-                        <li><a href="restaurant.html">Skyline Terrace</a></li>
-                        <li><a href="restaurant.html">Ocean Breeze</a></li>
-                        <li><a href="restaurant.html">The Heritage Garden</a></li>
+                        <li><a href="restaurant.html#downtown-lounge">Downtown Lounge</a></li>
+                        <li><a href="restaurant.html#skyline-terrace">Skyline Terrace</a></li>
+                        <li><a href="restaurant.html#ocean-breeze">Ocean Breeze</a></li>
+                        <li><a href="restaurant.html#heritage-garden">The Heritage Garden</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="restaurant.html">Restaurant</a></li>
+                        <li><a href="reservation.html">Reservation</a></li>
+                        <li><a href="orders.html">Orders</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Connect With Us</h3>
-                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
-                        <a href="https://instagram.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #E1306C; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-instagram"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaLuxury</span>
-                        </a>
-                        <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1877F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-facebook-f"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">/AromaticaDining</span>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1DA1F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-twitter"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaCoffee</span>
-                        </a>
-                        <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #FF0000; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-youtube"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">Aromatica Experience</span>
-                        </a>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/aromaticaluxury/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/aromaticadining" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/aromaticacoffee" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@aromaticaexperience" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
+            <hr class="footer-divider">
             <div class="footer-bottom">
                 <p>&copy; 2026 Aromatica Luxury Restaurants. All rights reserved.</p>
             </div>
@@ -620,6 +617,7 @@
                 <div><strong style="color: var(--text-light);">Outlet:</strong> <span id="popup-res-outlet"></span></div>
                 <div><strong style="color: var(--text-light);">Allocated Table:</strong> <span id="popup-res-table"></span></div>
                 <div><strong style="color: var(--text-light);">Scheduled Timing:</strong> <span id="popup-res-timing"></span></div>
+                <div><strong style="color: var(--text-light);">Guest Count:</strong> <span id="popup-res-guests"></span></div>
             </div>
 
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Your reservation has been added directly to your orders dashboard history.</p>
@@ -628,5 +626,9 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Set minimum date to today — prevents selecting past dates
+        document.getElementById('reservation-date').min = new Date().toISOString().split('T')[0];
+    </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aromatica — luxury dining and artisan coffee in Chandigarh. Book a table, explore our premium menu, and indulge in a world-class experience.">
     <title>Aromatica | Luxury Dining & Coffee Culture</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
         <div class="container">
             <a href="index.html" class="logo">AROMATICA</a>
             <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="restaurant.html">Restaurant</a></li>
                 <li><a href="reservation.html">Reservation</a></li>
@@ -25,7 +26,7 @@
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
             <div class="nav-btns">
-                <a href="login.html" class="btn btn-outline">Login / Signup</a>
+                <a href="login.html" class="btn btn-outline"><i class="fas fa-user" style="margin-right:5px;"></i><span class="btn-login-text">Login</span></a>
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -44,7 +45,7 @@
                 <p>Indulge in the finest selection of artisan coffees and gourmet dishes, crafted for the true connoisseur of life. Every sip tells a story of elegance and passion.</p>
                 <div class="hero-btns">
                     <a href="restaurant.html" class="btn btn-primary">Explore Restaurant</a>
-                    <a href="#" class="btn btn-outline">How It Works <i class="fas fa-play-circle" style="margin-left: 8px;"></i></a>
+                    <a href="#how-it-works" class="btn btn-outline">How It Works <i class="fas fa-play-circle" style="margin-left: 8px;"></i></a>
                 </div>
             </div>
             <div class="hero-visual reveal">
@@ -59,24 +60,81 @@
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="container hiw-section">
+        <div class="reveal" style="text-align: center; margin-bottom: 4rem;">
+            <span class="hero-subtitle">Simple & Seamless</span>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">How It <span class="accent-text">Works</span></h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Three effortless steps stand between you and an extraordinary dining experience at Aromatica.</p>
+        </div>
+
+        <div class="hiw-steps">
+            <!-- Step 1 -->
+            <div class="hiw-card glass reveal">
+                <div class="hiw-step-number">01</div>
+                <div class="hiw-icon-wrap">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Browse the Menu</h3>
+                <p>Explore our curated selection of artisan coffees, gourmet dishes, and seasonal specials — all crafted by award-winning chefs.</p>
+                <a href="restaurant.html" class="hiw-link">View Menu <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Connector -->
+            <div class="hiw-connector" aria-hidden="true">
+                <div class="hiw-connector-line"></div>
+                <i class="fas fa-chevron-right hiw-connector-arrow"></i>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="hiw-card glass reveal" style="transition-delay: 0.15s;">
+                <div class="hiw-step-number">02</div>
+                <div class="hiw-icon-wrap">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Make a Reservation</h3>
+                <p>Choose your outlet, pick your table on our interactive floor plan, select date, time, and guest count — confirmed in seconds.</p>
+                <a href="reservation.html" class="hiw-link">Reserve Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Connector -->
+            <div class="hiw-connector" aria-hidden="true">
+                <div class="hiw-connector-line"></div>
+                <i class="fas fa-chevron-right hiw-connector-arrow"></i>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="hiw-card glass reveal" style="transition-delay: 0.3s;">
+                <div class="hiw-step-number">03</div>
+                <div class="hiw-icon-wrap">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Enjoy the Experience</h3>
+                <p>Arrive to priority seating, a warm welcome drink, and a culinary journey crafted exclusively for you. Every detail, perfected.</p>
+                <a href="orders.html" class="hiw-link">Track Orders <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
     <!-- Featured Section -->
+
     <section class="featured container" style="padding: 100px 0;">
         <div class="reveal" style="text-align: center; margin-bottom: 60px;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Signature Experience</h2>
+            <h2 class="fade-in" style="font-size: 2.5rem; margin-bottom: 1rem;">Our Signature Experience</h2>
             <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto;">From the bean to the cup, and the farm to the table, every detail at Aromatica is curated for excellence.</p>
         </div>
         <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+            <div class="glass reveal fade-in" style="padding: 3rem; border-radius: 20px; text-align: center;">
                 <i class="fas fa-coffee" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
                 <h3>Artisan Brews</h3>
                 <p style="color: var(--text-muted);">Masterfully roasted beans sourced from the world's most prestigious estates.</p>
             </div>
-            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+            <div class="glass reveal fade-in" style="padding: 3rem; border-radius: 20px; text-align: center;">
                 <i class="fas fa-utensils" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
                 <h3>Gourmet Dining</h3>
                 <p style="color: var(--text-muted);">Exquisite flavors designed by award-winning chefs to delight your palate.</p>
             </div>
-            <div class="glass reveal" style="padding: 3rem; border-radius: 20px; text-align: center;">
+            <div class="glass reveal fade-in" style="padding: 3rem; border-radius: 20px; text-align: center;">
                 <i class="fas fa-gem" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
                 <h3>Luxury Ambience</h3>
                 <p style="color: var(--text-muted);">An atmosphere of sophistication and comfort, perfect for any occasion.</p>
@@ -110,33 +168,33 @@
     <section class="menu-preview container" style="padding: 100px 0;">
         <div class="reveal" style="text-align: center; margin-bottom: 60px;">
             <span class="hero-subtitle">Taste the Excellence</span>
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Seasonal Favorites</h2>
+            <h2 class="fade-in" style="font-size: 2.5rem; margin-bottom: 1rem;">Our Seasonal Favorites</h2>
         </div>
         <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem;">
             <!-- Item 1 -->
-            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+            <div class="glass reveal fade-in" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
                 <img src="./images/menu/gold-flake-latte.png" alt="Gold Flake Latte" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <h3 style="font-size: 1.2rem;">Gold Flake Latte</h3>
-                    <span style="color: var(--primary-color); font-weight: 700;">₹12.00</span>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹1,200</span>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">24k edible gold flakes over premium espresso and velvet foam.</p>
             </div>
             <!-- Item 2 -->
-            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+            <div class="glass reveal fade-in" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
                 <img src="./images/menu/truffle-mocha.png" alt="Truffle Mocha" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <h3 style="font-size: 1.2rem;">Truffle Mocha</h3>
-                    <span style="color: var(--primary-color); font-weight: 700;">₹15.00</span>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹950</span>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">Rich dark chocolate infused with hints of black truffle oil.</p>
             </div>
             <!-- Item 3 -->
-            <div class="glass reveal" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
+            <div class="glass reveal fade-in" style="padding: 2rem; border-radius: 25px; transition: var(--transition);">
                 <img src="./images/menu/velvet-cheesecake.png" alt="Velvet Cheesecake" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;" loading="lazy">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                     <h3 style="font-size: 1.2rem;">Velvet Cheesecake</h3>
-                    <span style="color: var(--primary-color); font-weight: 700;">₹18.00</span>
+                    <span style="color: var(--primary-color); font-weight: 700;">₹850</span>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.9rem;">Artisan cheesecake served with a wild berry reduction.</p>
             </div>
@@ -220,40 +278,40 @@
                 <div class="footer-col">
                     <h3 class="logo">AROMATICA</h3>
                     <p>Redefining the luxury dining and coffee experience with passion and precision.</p>
-                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-envelope"></i> contact@aromatica.com</p>
-                    <p style="font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-phone"></i> +91 172 480 2008</p>
+                    <p><i class="fas fa-envelope"></i> info@aromatica.com</p>
+                    <p><i class="fas fa-phone"></i> +91 172 480 2008</p>
                 </div>
                 <div class="footer-col">
                     <h3>Our Restaurants</h3>
                     <ul>
-                        <li><a href="restaurant.html">Downtown Lounge</a></li>
-                        <li><a href="restaurant.html">Skyline Terrace</a></li>
-                        <li><a href="restaurant.html">Ocean Breeze</a></li>
-                        <li><a href="restaurant.html">The Heritage Garden</a></li>
+                        <li><a href="restaurant.html#downtown-lounge">Downtown Lounge</a></li>
+                        <li><a href="restaurant.html#skyline-terrace">Skyline Terrace</a></li>
+                        <li><a href="restaurant.html#ocean-breeze">Ocean Breeze</a></li>
+                        <li><a href="restaurant.html#heritage-garden">The Heritage Garden</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="restaurant.html">Restaurant</a></li>
+                        <li><a href="reservation.html">Reservation</a></li>
+                        <li><a href="orders.html">Orders</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Connect With Us</h3>
-                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
-                        <a href="https://instagram.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #E1306C; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-instagram"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaLuxury</span>
-                        </a>
-                        <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1877F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-facebook-f"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">/AromaticaDining</span>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1DA1F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-twitter"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaCoffee</span>
-                        </a>
-                        <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #FF0000; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-youtube"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">Aromatica Experience</span>
-                        </a>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/aromaticaluxury/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/aromaticadining" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/aromaticacoffee" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@aromaticaexperience" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
+            <hr class="footer-divider">
             <div class="footer-bottom">
                 <p>&copy; 2026 Aromatica Luxury Restaurants. All rights reserved.</p>
             </div>

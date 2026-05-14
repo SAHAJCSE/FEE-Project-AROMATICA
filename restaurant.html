@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore Aromatica's full menu of artisan coffees and gourmet dishes crafted by award-winning chefs.">
     <title>Our Restaurants | Aromatica</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -56,13 +57,13 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="restaurant.html" class="active">Restaurant</a></li>
+                <li><a href="restaurant.html">Restaurant</a></li>
                 <li><a href="reservation.html">Reservation</a></li>
                 <li><a href="orders.html">Orders</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
             </ul>
             <div class="nav-btns">
-                <a href="login.html" class="btn btn-outline">Login / Signup</a>
+                <a href="login.html" class="btn btn-outline"><i class="fas fa-user" style="margin-right:5px;"></i><span class="btn-login-text">Login</span></a>
                 <div class="hamburger">
                     <span></span>
                     <span></span>
@@ -102,8 +103,94 @@
 
     <!-- Outlets Section -->
     <section id="outlets" class="container" style="padding: 100px 0;">
-        <div id="restaurant-grid" class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
-            <!-- Injected by script.js -->
+
+        <!-- Outlet 1: Downtown Lounge -->
+        <div id="downtown-lounge" class="outlet-card glass reveal" style="margin-bottom: 4rem; display: flex; gap: 0; border-radius: 25px; overflow: hidden;">
+            <div style="flex: 1.2; min-height: 380px; background: url('./images/reservation/candle-light-dinner.jpg') center/cover; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; top: 1.5rem; left: 1.5rem; background: var(--primary-color); color: var(--bg-dark); padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">FLAGSHIP</div>
+            </div>
+            <div class="outlet-info" style="flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span style="color: var(--text-muted); font-size: 0.85rem;">5.0 (412 reviews)</span></div>
+                <h2 style="font-size: 1.9rem; margin-bottom: 0.75rem;">Downtown <span class="accent-text">Lounge</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Our flagship fine-dining destination in the heart of Sector 7-C. An intimate candlelit haven offering our full tasting menu, live weekend jazz, and an exclusive Chef's Table experience.</p>
+                <div class="outlet-meta">
+                    <span><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> Sector 7-C, Chandigarh</span>
+                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> 11 AM – 1 AM</span>
+                    <span><i class="fas fa-phone" style="color: var(--primary-color);"></i> +91 172 480 2008</span>
+                </div>
+                <div class="outlet-btns">
+                    <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-check" style="margin-right:6px;"></i>Reserve Table</a>
+                    <a href="https://www.google.com/maps/search/Sector+7-C+Chandigarh+restaurant" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fas fa-directions" style="margin-right:6px;"></i>Get Directions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outlet 2: Skyline Terrace -->
+        <div id="skyline-terrace" class="outlet-card glass reveal" style="margin-bottom: 4rem; display: flex; flex-direction: row-reverse; gap: 0; border-radius: 25px; overflow: hidden;">
+            <div style="flex: 1.2; min-height: 380px; background: url('./images/reservation/rooftop-dining.jpg') center/cover; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(46,204,113,0.9); color: #fff; padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">ROOFTOP</div>
+            </div>
+            <div class="outlet-info" style="flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span style="color: var(--text-muted); font-size: 0.85rem;">4.8 (287 reviews)</span></div>
+                <h2 style="font-size: 1.9rem; margin-bottom: 0.75rem;">Skyline <span class="accent-text">Terrace</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Dine under the open sky at our breathtaking rooftop lounge in Sector 26. Panoramic city views, artisan cocktails, and a curated open-air menu make every evening truly unforgettable.</p>
+                <div class="outlet-meta">
+                    <span><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> Sector 26, Chandigarh</span>
+                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> 5 PM – 1 AM</span>
+                    <span><i class="fas fa-phone" style="color: var(--primary-color);"></i> +91 172 480 2026</span>
+                </div>
+                <div class="outlet-btns">
+                    <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-check" style="margin-right:6px;"></i>Reserve Table</a>
+                    <a href="https://www.google.com/maps/search/Sector+26+Chandigarh+restaurant" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fas fa-directions" style="margin-right:6px;"></i>Get Directions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outlet 3: Ocean Breeze -->
+        <div id="ocean-breeze" class="outlet-card glass reveal" style="margin-bottom: 4rem; display: flex; gap: 0; border-radius: 25px; overflow: hidden;">
+            <div style="flex: 1.2; min-height: 380px; background: url('./images/reservation/private-dining.jpg') center/cover; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; top: 1.5rem; left: 1.5rem; background: rgba(29,161,242,0.9); color: #fff; padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">LOUNGE</div>
+            </div>
+            <div class="outlet-info" style="flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span style="color: var(--text-muted); font-size: 0.85rem;">4.9 (318 reviews)</span></div>
+                <h2 style="font-size: 1.9rem; margin-bottom: 0.75rem;">Ocean <span class="accent-text">Breeze</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">A serene private-dining lounge inspired by coastal luxury in Panchkula. Featuring floor-to-ceiling glass walls, a curated seafood menu, and secluded booths perfect for intimate gatherings.</p>
+                <div class="outlet-meta">
+                    <span><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> Panchkula, Haryana</span>
+                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> 12 PM – 11:30 PM</span>
+                    <span><i class="fas fa-phone" style="color: var(--primary-color);"></i> +91 172 480 2033</span>
+                </div>
+                <div class="outlet-btns">
+                    <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-check" style="margin-right:6px;"></i>Reserve Table</a>
+                    <a href="https://www.google.com/maps/search/Panchkula+restaurant" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fas fa-directions" style="margin-right:6px;"></i>Get Directions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outlet 4: The Heritage Garden -->
+        <div id="heritage-garden" class="outlet-card glass reveal" style="margin-bottom: 2rem; display: flex; flex-direction: row-reverse; gap: 0; border-radius: 25px; overflow: hidden;">
+            <div style="flex: 1.2; min-height: 380px; background: url('./images/reservation/chefs-table.jpg') center/cover; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(212,163,115,0.95); color: var(--bg-dark); padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">HERITAGE</div>
+            </div>
+            <div class="outlet-info" style="flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span style="color: var(--text-muted); font-size: 0.85rem;">5.0 (189 reviews)</span></div>
+                <h2 style="font-size: 1.9rem; margin-bottom: 0.75rem;">The Heritage <span class="accent-text">Garden</span></h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7;">Our most exclusive Chef's Table venue, set within a restored heritage courtyard in Mohali. A curated 8-course tasting menu prepared tableside by our Executive Chef, available by reservation only.</p>
+                <div class="outlet-meta">
+                    <span><i class="fas fa-map-marker-alt" style="color: var(--primary-color);"></i> Mohali, Punjab</span>
+                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> 7 PM – 12 AM</span>
+                    <span><i class="fas fa-phone" style="color: var(--primary-color);"></i> +91 172 480 2044</span>
+                </div>
+                <div class="outlet-btns">
+                    <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-check" style="margin-right:6px;"></i>Reserve Table</a>
+                    <a href="https://www.google.com/maps/search/Mohali+restaurant" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fas fa-directions" style="margin-right:6px;"></i>Get Directions</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Also keep the JS-rendered grid for search/filter -->
+        <div id="restaurant-grid" class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem; margin-top: 2rem;">
+            <!-- Dynamic content injected by script.js -->
         </div>
     </section>
 
@@ -144,40 +231,40 @@
                 <div class="footer-col">
                     <h3 class="logo">AROMATICA</h3>
                     <p>Redefining the luxury dining and coffee experience with passion and precision.</p>
-                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-envelope"></i> contact@aromatica.com</p>
-                    <p style="font-size: 0.95rem; color: var(--primary-color);"><i class="fas fa-phone"></i> +91 172 480 2008</p>
+                    <p><i class="fas fa-envelope"></i> info@aromatica.com</p>
+                    <p><i class="fas fa-phone"></i> +91 172 480 2008</p>
                 </div>
                 <div class="footer-col">
                     <h3>Our Restaurants</h3>
                     <ul>
-                        <li><a href="restaurant.html">Downtown Lounge</a></li>
-                        <li><a href="restaurant.html">Skyline Terrace</a></li>
-                        <li><a href="restaurant.html">Ocean Breeze</a></li>
-                        <li><a href="restaurant.html">The Heritage Garden</a></li>
+                        <li><a href="restaurant.html#downtown-lounge">Downtown Lounge</a></li>
+                        <li><a href="restaurant.html#skyline-terrace">Skyline Terrace</a></li>
+                        <li><a href="restaurant.html#ocean-breeze">Ocean Breeze</a></li>
+                        <li><a href="restaurant.html#heritage-garden">The Heritage Garden</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="restaurant.html">Restaurant</a></li>
+                        <li><a href="reservation.html">Reservation</a></li>
+                        <li><a href="orders.html">Orders</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h3>Connect With Us</h3>
-                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
-                        <a href="https://instagram.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #E1306C; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-instagram"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaLuxury</span>
-                        </a>
-                        <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1877F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-facebook-f"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">/AromaticaDining</span>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #1DA1F2; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-twitter"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">@AromaticaCoffee</span>
-                        </a>
-                        <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; gap: 1rem; color: var(--text-muted);">
-                            <span style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #FF0000; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1);"><i class="fab fa-youtube"></i></span>
-                            <span style="font-size: 0.95rem; font-weight: 500;">Aromatica Experience</span>
-                        </a>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/aromaticaluxury/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/aromaticadining" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/aromaticacoffee" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@aromaticaexperience" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
+            <hr class="footer-divider">
             <div class="footer-bottom">
                 <p>&copy; 2026 Aromatica Luxury Restaurants. All rights reserved.</p>
             </div>
