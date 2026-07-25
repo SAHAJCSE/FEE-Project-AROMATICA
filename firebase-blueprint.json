@@ -1,0 +1,180 @@
+{
+  "entities": {
+    "user_profiles": {
+      "title": "User Profile",
+      "description": "Stores basic user profiles synced with Firebase Auth.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "The unique Firebase Auth user ID."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "The user's full name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 150,
+          "description": "The user's email address."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp or server timestamp when the profile was created."
+        }
+      },
+      "required": ["uid", "name", "email"]
+    },
+    "reservations": {
+      "title": "Table Reservation",
+      "description": "Stores table reservation records.",
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "pattern": "^RES-[0-9]{6}$",
+          "description": "Reservation reference number."
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "User ID of the person making the reservation."
+        },
+        "outlet": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 150,
+          "description": "Restaurant outlet name."
+        },
+        "table": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_-]{1,10}$",
+          "description": "Table identifier."
+        },
+        "date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+          "description": "Reservation date (YYYY-MM-DD)."
+        },
+        "time": {
+          "type": "string",
+          "pattern": "^[0-9]{2}:[0-9]{2}$",
+          "description": "Reservation time (HH:MM)."
+        },
+        "guests": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Number of guests."
+        },
+        "bookedAt": {
+          "type": "string",
+          "description": "Timestamp when the booking was made."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Confirmed", "Cancelled"],
+          "description": "Current status of the reservation."
+        }
+      },
+      "required": ["ref", "userId", "outlet", "table", "date", "time", "guests", "bookedAt", "status"]
+    },
+    "orders": {
+      "title": "Gourmet Order",
+      "description": "Stores food orders and checkout details.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^AR-[0-9]{6}$",
+          "description": "Order reference number."
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "User ID of the person placing the order."
+        },
+        "date": {
+          "type": "string",
+          "description": "Order date timestamp."
+        },
+        "items": {
+          "type": "array",
+          "description": "List of ordered items."
+        },
+        "total": {
+          "type": "number",
+          "description": "Total order amount in INR."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Preparing", "On The Way", "Delivered"],
+          "description": "Current tracking status."
+        }
+      },
+      "required": ["id", "userId", "date", "items", "total", "status"]
+    },
+    "contact_inquiries": {
+      "title": "Contact Inquiry",
+      "description": "Stores inquiry messages sent via the contact form.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Inquirer's name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 150,
+          "description": "Inquirer's email."
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200,
+          "description": "Message subject."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000,
+          "description": "Message body."
+        },
+        "submittedAt": {
+          "type": "string",
+          "description": "Timestamp when submitted."
+        }
+      },
+      "required": ["name", "email", "subject", "message", "submittedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user_profiles",
+      "description": "User profiles, accessible only by the owner."
+    },
+    "/reservations/{reservationId}": {
+      "schema": "reservations",
+      "description": "Table reservations."
+    },
+    "/orders/{orderId}": {
+      "schema": "orders",
+      "description": "Gourmet food orders."
+    },
+    "/contact_inquiries/{inquiryId}": {
+      "schema": "contact_inquiries",
+      "description": "Inquiries submitted through the contact page."
+    }
+  }
+}

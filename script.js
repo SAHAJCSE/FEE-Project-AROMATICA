@@ -22,32 +22,59 @@ function toggleAuthMode() {
     }
 }
 
+window.toggleAuthMode = toggleAuthMode;
+
 function updateAuthUI() {
     const currentUser = JSON.parse(localStorage.getItem('aromatica_current_user'));
     const authBtnContainers = document.querySelectorAll('.nav-btns');
     
     authBtnContainers.forEach(container => {
         const loginBtn = container.querySelector('a[href="login.html"]');
-        if (currentUser && loginBtn) {
+        if (currentUser) {
             const initial = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
             const firstName = currentUser.name ? currentUser.name.split(' ')[0] : 'User';
-            loginBtn.outerHTML = `
-                <div class="user-profile-container" style="position: relative; display: inline-block;">
-                    <div class="user-profile" style="display: flex; align-items: center; gap: 0.8rem; cursor: pointer; padding: 0.3rem 0;">
-                        <div class="user-avatar-btn" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); color: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 2px solid var(--text-light); box-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: var(--transition);" title="View Profile">
-                            ${initial}
+            if (loginBtn) {
+                loginBtn.outerHTML = `
+                    <div class="user-profile-container" style="position: relative; display: inline-block;">
+                        <div class="user-profile" id="user-profile-trigger" style="display: flex; align-items: center; gap: 0.8rem; cursor: pointer; padding: 0.3rem 0;">
+                            <div class="user-avatar-btn" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); color: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; border: 2px solid var(--text-light); box-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: var(--transition);" title="View Profile">
+                                ${initial}
+                            </div>
+                            <span style="font-weight: 600; color: var(--text-light); font-size: 0.95rem;">${firstName}</span>
                         </div>
-                        <span style="font-weight: 600; color: var(--text-light); font-size: 0.95rem;">${firstName}</span>
+                        <div class="glass user-dropdown" id="user-profile-dropdown" style="position: absolute; top: 100%; right: 0; width: 180px; padding: 0.75rem; border-radius: 12px; z-index: 1100; text-align: center; border: 1px solid var(--glass-border); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none;">
+                            <div style="padding: 0.5rem; font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.5rem; word-break: break-all;">${currentUser.email || ''}</div>
+                            <a href="orders.html" class="btn btn-outline" style="width: 100%; padding: 0.5rem; font-size: 0.85rem; margin-bottom: 0.5rem; display: block; text-align: center;">My Orders</a>
+                            <button onclick="logout()" class="btn btn-primary" style="width: 100%; padding: 0.5rem; font-size: 0.85rem; pointer-events: auto;">Logout</button>
+                        </div>
                     </div>
-                    <div class="glass user-dropdown" style="position: absolute; top: 100%; right: 0; width: 160px; padding: 0.5rem; border-radius: 12px; z-index: 1100; text-align: center; border: 1px solid var(--glass-border); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; pointer-events: none;">
-                        <div style="padding: 0.5rem; font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.5rem; word-break: break-all;">${currentUser.email || ''}</div>
-                        <button onclick="logout()" class="btn btn-primary" style="width: 100%; padding: 0.5rem; font-size: 0.85rem; pointer-events: auto;">Logout</button>
-                    </div>
-                </div>
-            `;
+                `;
+                
+                // Add dropdown toggle logic
+                const trigger = document.getElementById('user-profile-trigger');
+                const dropdown = document.getElementById('user-profile-dropdown');
+                if (trigger && dropdown) {
+                    trigger.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isVisible = dropdown.style.visibility === 'visible';
+                        dropdown.style.opacity = isVisible ? '0' : '1';
+                        dropdown.style.visibility = isVisible ? 'hidden' : 'visible';
+                        dropdown.style.transform = isVisible ? 'translateY(10px)' : 'translateY(0)';
+                        dropdown.style.pointerEvents = isVisible ? 'none' : 'auto';
+                    });
+                    document.addEventListener('click', () => {
+                        dropdown.style.opacity = '0';
+                        dropdown.style.visibility = 'hidden';
+                        dropdown.style.transform = 'translateY(10px)';
+                        dropdown.style.pointerEvents = 'none';
+                    });
+                }
+            }
         }
     });
 }
+
+window.updateAuthUI = updateAuthUI;
 
 window.toggleUserDropdown = () => {
     const dropdown = document.getElementById('user-dropdown');
@@ -55,9 +82,28 @@ window.toggleUserDropdown = () => {
 };
 
 function logout() {
-    localStorage.removeItem('aromatica_current_user');
-    window.location.reload();
+    if (window.firebaseService) {
+        window.firebaseService.logoutUser()
+        .then(() => {
+            window.location.href = 'index.html';
+        })
+        .catch((err) => {
+            console.error("Signout error:", err);
+            localStorage.removeItem('aromatica_current_user');
+            window.location.href = 'index.html';
+        });
+    } else {
+        localStorage.removeItem('aromatica_current_user');
+        window.location.href = 'index.html';
+    }
 }
+
+window.logout = logout;
+
+// Listen for custom authentication status changes and re-render the navbar UI instantly
+window.addEventListener('aromatica-auth-changed', () => {
+    updateAuthUI();
+});
 
 // --- Active Nav Link Highlighting ---
 function setActiveNavLink() {
@@ -156,7 +202,7 @@ window.initTableBooking = () => {
     // 3. Form submission hook
     const form = document.getElementById('reservation-form');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!selectedTable) {
                 alert('Please select a suitable available table from the floor plan first!');
@@ -180,8 +226,6 @@ window.initTableBooking = () => {
             const orderId = 'RES-' + Math.floor(Math.random() * 900000 + 100000);
             const timestamp = new Date().toLocaleString();
 
-            // --- Save to aromatica_reservations (structured, dedicated store) ---
-            const reservations = JSON.parse(localStorage.getItem('aromatica_reservations') || '[]');
             const newReservation = {
                 ref: orderId,
                 outlet: resOutlet,
@@ -192,10 +236,13 @@ window.initTableBooking = () => {
                 bookedAt: timestamp,
                 status: 'Confirmed'
             };
+
+            // Save locally first
+            const reservations = JSON.parse(localStorage.getItem('aromatica_reservations') || '[]');
             reservations.unshift(newReservation);
             localStorage.setItem('aromatica_reservations', JSON.stringify(reservations));
 
-            // --- Also keep a mirror entry in aromatica_orders for backward-compat ---
+            // Also keep a mirror entry in aromatica_orders for backward-compat
             const orders = JSON.parse(localStorage.getItem('aromatica_orders') || '[]');
             orders.unshift({
                 id: orderId,
@@ -205,6 +252,18 @@ window.initTableBooking = () => {
                 status: 'Reserved Table'
             });
             localStorage.setItem('aromatica_orders', JSON.stringify(orders));
+
+            // Save to Firebase if signed in
+            if (window.firebaseService && window.firebaseService.auth.currentUser) {
+                try {
+                    await window.firebaseService.createReservation(newReservation);
+                } catch (err) {
+                    console.error("Firebase reservation saving error:", err);
+                    alert("A network error occurred while securing your table online. Your table is saved locally in this browser.");
+                }
+            } else if (window.firebaseService) {
+                alert("Please note: Your reservation is saved locally. Create an account to sync it across your devices!");
+            }
 
             // --- Populate & show Success Modal ---
             const modal = document.getElementById('reservation-success-modal');
@@ -432,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Auth: Sign Up Logic ---
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
@@ -444,39 +503,78 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const users = JSON.parse(localStorage.getItem('aromatica_users') || '[]');
-            if (users.find(u => u.email === email)) {
-                alert('User with this email already exists!');
-                return;
-            }
+            if (window.firebaseService) {
+                try {
+                    await window.firebaseService.signUpWithEmail(name, email, password);
+                    alert('Account created successfully! Welcome to Aromatica.');
+                    window.location.href = 'index.html';
+                } catch (err) {
+                    alert('Error creating account: ' + err.message);
+                }
+            } else {
+                const users = JSON.parse(localStorage.getItem('aromatica_users') || '[]');
+                if (users.find(u => u.email === email)) {
+                    alert('User with this email already exists!');
+                    return;
+                }
 
-            users.push({ name, email, password });
-            localStorage.setItem('aromatica_users', JSON.stringify(users));
-            
-            // Auto-login
-            localStorage.setItem('aromatica_current_user', JSON.stringify({ name, email }));
-            alert('Account created successfully! Welcome to Aromatica.');
-            window.location.href = 'index.html';
+                users.push({ name, email, password });
+                localStorage.setItem('aromatica_users', JSON.stringify(users));
+                
+                // Auto-login
+                localStorage.setItem('aromatica_current_user', JSON.stringify({ name, email }));
+                alert('Account created successfully! Welcome to Aromatica (Local Mode).');
+                window.location.href = 'index.html';
+            }
         });
     }
 
     // --- Auth: Sign In Logic ---
     const signinForm = document.getElementById('signin-form');
     if (signinForm) {
-        signinForm.addEventListener('submit', (e) => {
+        signinForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('signin-email').value;
             const password = document.getElementById('signin-password').value;
 
-            const users = JSON.parse(localStorage.getItem('aromatica_users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (user) {
-                localStorage.setItem('aromatica_current_user', JSON.stringify({ name: user.name, email: user.email }));
-                alert(`Welcome back, ${user.name}!`);
-                window.location.href = 'index.html';
+            if (window.firebaseService) {
+                try {
+                    const user = await window.firebaseService.loginWithEmail(email, password);
+                    alert(`Welcome back, ${user.displayName || user.email.split('@')[0]}!`);
+                    window.location.href = 'index.html';
+                } catch (err) {
+                    alert('Invalid email or password or authentication failure: ' + err.message);
+                }
             } else {
-                alert('Invalid email or password!');
+                const users = JSON.parse(localStorage.getItem('aromatica_users') || '[]');
+                const user = users.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    localStorage.setItem('aromatica_current_user', JSON.stringify({ name: user.name, email: user.email }));
+                    alert(`Welcome back, ${user.name}!`);
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Invalid email or password!');
+                }
+            }
+        });
+    }
+
+    // --- Auth: Google Popup Logic ---
+    const googleBtn = document.querySelector('.social-btn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            if (window.firebaseService) {
+                try {
+                    const user = await window.firebaseService.loginWithGooglePopup();
+                    alert(`Welcome to Aromatica, ${user.displayName || 'Guest'}!`);
+                    window.location.href = 'index.html';
+                } catch (err) {
+                    alert('Google Sign-In failed: ' + err.message);
+                }
+            } else {
+                alert('Firebase is not initialized.');
             }
         });
     }
@@ -624,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Checkout Logic ---
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
-        checkoutBtn.onclick = () => {
+        checkoutBtn.onclick = async () => {
             if (cart.length === 0) {
                 alert('Your cart is empty!');
                 return;
@@ -650,6 +748,18 @@ document.addEventListener('DOMContentLoaded', () => {
             orders.unshift(newOrder);
             localStorage.setItem('aromatica_orders', JSON.stringify(orders));
 
+            // Save to Firebase if signed in
+            if (window.firebaseService && window.firebaseService.auth.currentUser) {
+                try {
+                    await window.firebaseService.createOrder(newOrder);
+                } catch (err) {
+                    console.error("Firebase order saving error:", err);
+                    alert("A network error occurred while securing your order online. Your order is placed locally in this browser.");
+                }
+            } else if (window.firebaseService) {
+                alert("Please note: Your order is placed locally. Create an account to track details across your devices!");
+            }
+
             const orderIdSpan = document.getElementById('order-id');
             const successModal = document.getElementById('success-modal');
             if (orderIdSpan) orderIdSpan.textContent = orderId;
@@ -667,10 +777,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ================================================================
     const ordersList = document.getElementById('orders-list');
     if (ordersList) {
-        const reservations = JSON.parse(localStorage.getItem('aromatica_reservations') || '[]');
-        const cartOrders   = JSON.parse(localStorage.getItem('aromatica_orders') || '[]')
-                               .filter(o => o.status !== 'Reserved Table'); // exclude mirrored res entries
-
         // ── helpers ──────────────────────────────────────────────────
         const zoneName = (tableId) => {
             if (!tableId) return 'Dining Area';
@@ -795,50 +901,93 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;};
 
-        // ── Build the two sections ───────────────────────────────────
-        let html = '';
+        const renderAll = (resList, ordList) => {
+            let html = '';
 
-        // — Section 1: Table Bookings —
-        html += `<div style="margin-bottom: 3rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
-                <i class="fas fa-calendar-check" style="font-size: 1.2rem; color: #2ecc71;"></i>
-                <h3 style="font-size: 1.4rem; margin: 0;">Table <span style="color:#2ecc71;">Bookings</span></h3>
-                <span style="margin-left: auto; font-size: 0.8rem; background: rgba(46,204,113,0.15); color:#2ecc71; padding: 0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(46,204,113,0.3);">${reservations.length} booking${reservations.length !== 1 ? 's' : ''}</span>
-            </div>`;
+            // — Section 1: Table Bookings —
+            html += `<div style="margin-bottom: 3rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-calendar-check" style="font-size: 1.2rem; color: #2ecc71;"></i>
+                    <h3 style="font-size: 1.4rem; margin: 0;">Table <span style="color:#2ecc71;">Bookings</span></h3>
+                    <span style="margin-left: auto; font-size: 0.8rem; background: rgba(46,204,113,0.15); color:#2ecc71; padding: 0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(46,204,113,0.3);">${resList.length} booking${resList.length !== 1 ? 's' : ''}</span>
+                </div>`;
 
-        if (reservations.length === 0) {
-            html += `<div class="glass empty-orders reveal active" style="padding: 3rem; text-align: center; border-radius: 20px;">
-                <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1.5rem;"></i>
-                <h3 style="margin-bottom: 0.75rem;">No Table Bookings Yet</h3>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Reserve your table for a premium luxury dining experience.</p>
-                <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-plus" style="margin-right:6px;"></i>Book a Table</a>
-            </div>`;
-        } else {
-            html += reservations.map(renderReservationCard).join('');
+            if (resList.length === 0) {
+                html += `<div class="glass empty-orders reveal active" style="padding: 3rem; text-align: center; border-radius: 20px;">
+                    <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1.5rem;"></i>
+                    <h3 style="margin-bottom: 0.75rem;">No Table Bookings Yet</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Reserve your table for a premium luxury dining experience.</p>
+                    <a href="reservation.html" class="btn btn-primary"><i class="fas fa-calendar-plus" style="margin-right:6px;"></i>Book a Table</a>
+                </div>`;
+            } else {
+                html += resList.map(renderReservationCard).join('');
+            }
+            html += '</div>';
+
+            // — Section 2: Cart Orders —
+            html += `<div style="margin-bottom: 3rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-shopping-bag" style="font-size: 1.2rem; color: var(--primary-color);"></i>
+                    <h3 style="font-size: 1.4rem; margin: 0;">Cart <span class="accent-text">Orders</span></h3>
+                    <span style="margin-left: auto; font-size: 0.8rem; background: rgba(212,163,115,0.15); color:var(--primary-color); padding: 0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(212,163,115,0.3);">${ordList.length} order${ordList.length !== 1 ? 's' : ''}</span>
+                </div>`;
+
+            if (ordList.length === 0) {
+                html += `<div class="glass empty-orders reveal active" style="padding: 3rem; text-align: center; border-radius: 20px;">
+                    <i class="fas fa-receipt" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1.5rem;"></i>
+                    <h3 style="margin-bottom: 0.75rem;">No Orders Placed Yet</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Browse our artisan menu and start your luxury dining journey.</p>
+                    <a href="restaurant.html" class="btn btn-primary"><i class="fas fa-utensils" style="margin-right:6px;"></i>Explore Menu</a>
+                </div>`;
+            } else {
+                html += ordList.map(renderCartOrderCard).join('');
+            }
+            html += '</div>';
+
+            ordersList.innerHTML = html;
+        };
+
+        // Render local storage cached data instantly
+        const localReservations = JSON.parse(localStorage.getItem('aromatica_reservations') || '[]');
+        const localCartOrders   = JSON.parse(localStorage.getItem('aromatica_orders') || '[]')
+                                   .filter(o => o.status !== 'Reserved Table');
+        renderAll(localReservations, localCartOrders);
+
+        // Fetch from Firebase and sync
+        const syncWithFirebase = async () => {
+            if (window.firebaseService && window.firebaseService.auth.currentUser) {
+                try {
+                    const remoteRes = await window.firebaseService.fetchUserReservations();
+                    const remoteOrders = await window.firebaseService.fetchUserOrders();
+
+                    // Sync reservations
+                    if (remoteRes && remoteRes.length > 0) {
+                        localStorage.setItem('aromatica_reservations', JSON.stringify(remoteRes));
+                    }
+                    // Sync orders (keep any local "Reserved Table" mirrors for consistency, but update real orders)
+                    if (remoteOrders && remoteOrders.length > 0) {
+                        const reservedTables = JSON.parse(localStorage.getItem('aromatica_orders') || '[]')
+                                                 .filter(o => o.status === 'Reserved Table');
+                        const combined = [...remoteOrders, ...reservedTables];
+                        localStorage.setItem('aromatica_orders', JSON.stringify(combined));
+                    }
+
+                    // Re-render from synced local storage
+                    const syncedRes = JSON.parse(localStorage.getItem('aromatica_reservations') || '[]');
+                    const syncedOrders = JSON.parse(localStorage.getItem('aromatica_orders') || '[]')
+                                            .filter(o => o.status !== 'Reserved Table');
+                    renderAll(syncedRes, syncedOrders);
+                } catch (err) {
+                    console.error("Firebase syncing error:", err);
+                }
+            }
+        };
+
+        // Trigger sync automatically when Auth State resolves
+        window.addEventListener('aromatica-auth-changed', syncWithFirebase);
+        if (window.firebaseService && window.firebaseService.auth.currentUser) {
+            syncWithFirebase();
         }
-        html += '</div>';
-
-        // — Section 2: Cart Orders —
-        html += `<div style="margin-bottom: 3rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
-                <i class="fas fa-shopping-bag" style="font-size: 1.2rem; color: var(--primary-color);"></i>
-                <h3 style="font-size: 1.4rem; margin: 0;">Cart <span class="accent-text">Orders</span></h3>
-                <span style="margin-left: auto; font-size: 0.8rem; background: rgba(212,163,115,0.15); color:var(--primary-color); padding: 0.3rem 0.8rem; border-radius:50px; border:1px solid rgba(212,163,115,0.3);">${cartOrders.length} order${cartOrders.length !== 1 ? 's' : ''}</span>
-            </div>`;
-
-        if (cartOrders.length === 0) {
-            html += `<div class="glass empty-orders reveal active" style="padding: 3rem; text-align: center; border-radius: 20px;">
-                <i class="fas fa-receipt" style="font-size: 3rem; color: var(--glass-border); margin-bottom: 1.5rem;"></i>
-                <h3 style="margin-bottom: 0.75rem;">No Orders Placed Yet</h3>
-                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Browse our artisan menu and start your luxury dining journey.</p>
-                <a href="restaurant.html" class="btn btn-primary"><i class="fas fa-utensils" style="margin-right:6px;"></i>Explore Menu</a>
-            </div>`;
-        } else {
-            html += cartOrders.map(renderCartOrderCard).join('');
-        }
-        html += '</div>';
-
-        ordersList.innerHTML = html;
     }
 
     window.closeSuccessModal = () => {
@@ -1022,6 +1171,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+    // --- Contact Form Submission Hook ---
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+
+            const inquiryData = {
+                name,
+                email,
+                subject,
+                message,
+                submittedAt: new Date().toISOString()
+            };
+
+            if (window.firebaseService) {
+                try {
+                    // This stores the contact submission safely in the database
+                    await window.firebaseService.createContactInquiry(inquiryData);
+                    alert("Thank you for reaching out! Your message has been sent successfully.");
+                    contactForm.reset();
+                } catch (err) {
+                    console.error("Firebase contact submit error:", err);
+                    alert("A network error occurred while sending your message. Please try again later.");
+                }
+            } else {
+                alert("Thank you! Your inquiry has been logged locally (No Firebase connected).");
+                contactForm.reset();
+            }
+        });
+    }
 
     // --- Initialize UI ---
     window.updateCartUI();
