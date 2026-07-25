@@ -1,0 +1,14 @@
+{
+  "name": "aromatica",
+  "version": "1.0.0",
+  "description": "Luxury Dining & Coffee Culture",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'No build step required for static site'",
+    "lint": "echo 'No lint step required'"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

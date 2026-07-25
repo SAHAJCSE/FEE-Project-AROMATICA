@@ -1,0 +1,7 @@
+{
+  "name": "Aromatica",
+  "description": "Luxury dining and artisan coffee in Chandigarh. Book a table, explore our premium menu, and indulge in a world-class experience.",
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
